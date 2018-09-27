@@ -4,6 +4,7 @@
   "private": true,
   "main": "index.js",
   "repository": "https://gitee.com/ch3yne/issue-helper.git",
+  "homepage": "./",
   "author": "CHEYNE <liudecheng@matrixtime.com>",
   "license": "MIT",
   "dependencies": {
