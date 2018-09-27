@@ -111,25 +111,38 @@ class MainPage extends Component {
     }, 500);
   }
 
-  handleSetup = () => {
+  handleSetup = (val) => {
     const { getFieldValue }= this.props.form; 
-    let stg = {
-      site: getFieldValue('siteValue'),
-      token: getFieldValue('tokenValue')
-    };
-    // console.log(stg);
-    localStorage.setItem('storage', JSON.stringify(stg));
-    this.setState({
-      setupVisible: false,
-      storage: stg,
-    });
-    // this.initAllRepos(stg, {});
-  }
-
-  handleCancelSetUp = () => {
-    this.setState({
-      setupVisible: false,
-    });
+    switch (val) {
+      case 'confirm':
+        let stg = {
+          site: getFieldValue('siteValue'),
+          token: getFieldValue('tokenValue'),
+        };
+        // console.log(stg);
+        localStorage.setItem('storage', JSON.stringify(stg));
+        this.setState({
+          setupVisible: false,
+          storage: stg,
+        });
+        // this.initAllRepos(stg, {});
+        break;
+      default:
+        if (localStorage.getItem('storage') === null) {
+          let stg = {
+            site: 'https://gitlab.com',
+            token: '',
+          };
+          localStorage.setItem('storage', JSON.stringify(stg));
+          this.setState({
+            storage: stg,
+          });
+        }
+        this.setState({
+          setupVisible: false,
+        });
+        break;
+    }
   }
 
   handlePreview = (e) => {
@@ -358,8 +371,8 @@ ${issueExtra ? `---\n${issueExtra}` : ''}
           // formItemLayout={formItemLayout}
           form={form}
           visible={setupVisible}
-          setupBtnOnClick={this.handleSetup}
-          setupBtnOncancel={this.handleCancelSetUp}
+          setupBtnOnClick={this.handleSetup.bind(this, 'confirm')}
+          setupBtnOncancel={this.handleSetup}
         />
         <Header className={s.header}>
           <Row>
