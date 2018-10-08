@@ -1,0 +1,13 @@
+image: node:8.11.4
+pages:
+  stage: deploy
+  before_script:
+    - yarn
+    - yarn build
+  script:
+  - mv build public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
